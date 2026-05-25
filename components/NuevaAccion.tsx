@@ -143,14 +143,18 @@ export function NuevaAccion({ area, objetivos, onClose }: Props) {
 
             <div className="col-span-2">
               <label className={LABEL}>Responsable</label>
-              <input
+              <select
                 className={`${FIELD} mt-1`}
-                placeholder="Nombre del responsable (opcional)"
                 value={form.responsable}
                 onChange={(e) =>
                   setForm({ ...form, responsable: e.target.value })
                 }
-              />
+              >
+                <option value="">— Seleccionar —</option>
+                <option value="Luis Sasmay">Luis Sasmay</option>
+                <option value="Maria de la Paz">Maria de la Paz</option>
+                <option value="Anke">Anke</option>
+              </select>
             </div>
 
             <div>

@@ -169,13 +169,18 @@ export function AccionDetalle({ accion, seguimientos, onClose, color }: Props) {
             </div>
             <div>
               <label className={LABEL}>Responsable</label>
-              <input
+              <select
                 className={`${FIELD} mt-1`}
                 value={form.responsable}
                 onChange={(e) =>
                   setForm({ ...form, responsable: e.target.value })
                 }
-              />
+              >
+                <option value="">— Seleccionar —</option>
+                <option value="Luis Sasmay">Luis Sasmay</option>
+                <option value="Maria de la Paz">Maria de la Paz</option>
+                <option value="Anke">Anke</option>
+              </select>
             </div>
             <div>
               <label className={LABEL}>Equipo de apoyo</label>
