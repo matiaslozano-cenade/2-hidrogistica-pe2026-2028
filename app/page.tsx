@@ -2,9 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import type { Accion, Area } from "@/lib/types";
-import { ArrowRight, Droplets, Truck, Package, CheckCircle2, Clock } from "lucide-react";
+import { ArrowRight, Droplets, Truck, Package, CheckCircle2, Clock, LogOut, Settings } from "lucide-react";
 
 export const dynamic = "force-dynamic";
+
+const ADMIN_EMAIL = "matias.lozano@cenadechile.com";
 
 const ICONOS: Record<string, React.ComponentType<{ className?: string }>> = {
   "servicio-mercado-del-agua": Droplets,
@@ -14,6 +16,9 @@ const ICONOS: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export default async function Home() {
   const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  const esAdmin = user?.email === ADMIN_EMAIL;
 
   const [areasRes, accionesRes] = await Promise.all([
     supabase
@@ -51,12 +56,39 @@ export default async function Home() {
 
       <main className="relative mx-auto max-w-6xl px-6 py-10 sm:px-8 sm:py-14 lg:py-20">
         <header className="flex flex-col items-center text-center">
-          <Link
-            href="https://2-hidrogistica-inicio.vercel.app"
-            className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-medium text-zinc-600 backdrop-blur transition-colors hover:border-zinc-300 hover:text-zinc-900"
-          >
-            ← Portal Hidrogistica
-          </Link>
+          {/* Barra top: navegación + sesión */}
+          <div className="w-full flex items-center justify-between mb-6">
+            <Link
+              href="https://2-hidrogistica-inicio.vercel.app"
+              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-medium text-zinc-600 backdrop-blur transition-colors hover:border-zinc-300 hover:text-zinc-900"
+            >
+              ← Portal Hidrogistica
+            </Link>
+
+            <div className="flex items-center gap-2">
+              {esAdmin && (
+                <Link
+                  href="/admin"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-medium text-zinc-600 backdrop-blur transition-colors hover:border-zinc-300 hover:text-zinc-900"
+                >
+                  <Settings className="size-3" />
+                  Usuarios
+                </Link>
+              )}
+              <span className="hidden sm:block text-xs text-zinc-500 max-w-[180px] truncate">
+                {user?.email}
+              </span>
+              <form action="/auth/logout" method="POST">
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-medium text-zinc-600 backdrop-blur transition-colors hover:border-red-200 hover:text-red-600"
+                >
+                  <LogOut className="size-3" />
+                  Salir
+                </button>
+              </form>
+            </div>
+          </div>
 
           <div className="relative w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl shadow-[#f4b41a]/10 ring-1 ring-zinc-200">
             <Image
