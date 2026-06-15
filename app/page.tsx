@@ -52,7 +52,7 @@ export default async function Home() {
       <main className="relative mx-auto max-w-6xl px-6 py-10 sm:px-8 sm:py-14 lg:py-20">
         <header className="flex flex-col items-center text-center">
           <Link
-            href="https://2-hidrogistica-inicio.vercel.app"
+            href="https://hidrogistica.portalcenade.cl"
             className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-medium text-zinc-600 backdrop-blur transition-colors hover:border-zinc-300 hover:text-zinc-900"
           >
             ← Portal Hidrogistica
